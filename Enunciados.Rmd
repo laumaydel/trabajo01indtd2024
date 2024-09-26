@@ -1,0 +1,18 @@
+---
+title: "Enunciados"
+author: "Laura Mayorgas del Castillo"
+date: "2024-09-26"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# PROBLEMA 1
+
+
+
+
+
+# PROBLEMA 2
