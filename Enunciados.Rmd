@@ -24,6 +24,8 @@ knitr::kable(tabla)
 ```
 
 
+a) Desde el punto de vista FAVORABLE
+b) Desde el punto de vista DESFAVORABLE
 
 
 
