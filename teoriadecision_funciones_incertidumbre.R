@@ -2,12 +2,12 @@
 ## Funciones útiles ----
 
 crea.tablaX = function(vector_matporfilas,numalternativas=3,numestados=4) {
-  
+
   X = matrix(vector_matporfilas,nrow=numalternativas,ncol=numestados,byrow=TRUE)
   colnames(X) = paste('e',1:numestados,sep='');
   rownames(X) = paste('d',1:numalternativas,sep='');
   return(X);
-  
+
 }
 
 # Introducimos los datos en R en forma de matriz:
@@ -25,14 +25,14 @@ which.min.general = function(vector) {
   minimo = min(vector);
   res = which(vector == minimo);
   return(res);
-  
+
 }
 
 which.max.general = function(vector) {
   maximo = max(vector);
   res = which(vector == maximo);
   return(res);
-  
+
 }
 
 
@@ -46,7 +46,7 @@ distanciaEuclidea = function(pto1,pto2) {
 
 
 criterio.tablaX.ejemplos = function(cual=1) {
-  
+
   if (cual==2) { ## cual == 2  ## desfav.
     X = crea.tablaX(c(2,12,-3,5,5,-1,0,10,-2),numalternativas = 3,numestados = 3)
   } else if (cual==3) { ## cual == 3  ## desfav.
@@ -55,14 +55,14 @@ criterio.tablaX.ejemplos = function(cual=1) {
     X = crea.tablaX(c(5,4,6,2,3,1,-1,8,7,5,2,0),numalternativas = 4,numestados = 3)
   }
   return(X);
-  
+
 }
 
 ## Funciones Métodos de Decisión bajo Incertidumbre ----
 
 ## Criterio de Wald o Pesimista
 criterio.Wald = function(tablaX,favorable=TRUE) {
-  
+
   X = tablaX;
   if (favorable) {
     AltW = apply(X,MARGIN=1,min);
@@ -84,10 +84,10 @@ criterio.Wald = function(tablaX,favorable=TRUE) {
   resultados$ValorAlternativas = AltW;
   resultados$ValorOptimo = Wald;
   resultados$AlternativaOptima = Alt_Wald;
-  
+
   return(resultados);
-  
-  
+
+
 }
 
 
@@ -95,7 +95,7 @@ criterio.Wald = function(tablaX,favorable=TRUE) {
 
 
 criterio.Optimista = function(tablaX,favorable=TRUE) {
-  
+
   X = tablaX;
   if (favorable) {
     AltM = apply(X,MARGIN=1,max);
@@ -117,10 +117,10 @@ criterio.Optimista = function(tablaX,favorable=TRUE) {
   resultados$ValorAlternativas = AltM;
   resultados$ValorOptimo = Maximax;
   resultados$AlternativaOptima = Alt_Maximax;
-  
+
   return(resultados);
-  
-  
+
+
 }
 
 
@@ -152,11 +152,11 @@ criterio.Hurwicz = function(tablaX,alfa=0.3,favorable=TRUE) {
   resultados$ValorAlternativas = AltH;
   resultados$ValorOptimo = Hurwicz;
   resultados$AlternativaOptima = Alt_Hurwicz;
-  
+
   return(resultados);
-  
-  
-  
+
+
+
 }
 
 ## factor de optimismo   (alfab * "lo mejor" Altmax en favor. y Altmin en desf.)
@@ -198,7 +198,7 @@ criterio.Hurwicz.General = function(tablaX,alfa=0.3,favorable=TRUE) {
       vHurwicz[i] = min(vAltH);
       Alt_vHurwicz[i] = which.min(vAltH);
       Alt_vHurwicz_g = which.min.general(vAltH);
-      
+
     }
     metodo = 'desfavorable';
   }
@@ -214,11 +214,11 @@ criterio.Hurwicz.General = function(tablaX,alfa=0.3,favorable=TRUE) {
   } else {
     resultados$AlternativaOptima = Alt_vHurwicz;
   }
-  
+
   return(resultados);
-  
-  
-  
+
+
+
 }
 
 
@@ -239,9 +239,9 @@ dibuja.criterio.Hurwicz = function(tablaX,favorable=TRUE) {
       vAltH = alfab * Altmin + (1-alfab) * Altmax;
       vHurwicz[i] = min(vAltH)
     }
-    
+
   }
-  
+
   x0=0;x1=1;
   y0 = min(Altmin);
   y1 = max(Altmax);
@@ -273,7 +273,7 @@ dibuja.criterio.Hurwicz = function(tablaX,favorable=TRUE) {
     legend("topright",legend=rownames(X),fill=colores,inset=0.05)
     title("Criterio de Hurwicz (desfavorable - línea discontinua)")
   }
-  
+
 }
 
 
@@ -284,122 +284,122 @@ dibuja.criterio.Hurwicz = function(tablaX,favorable=TRUE) {
 # Autores: Ana Solis, Luca Ricardi y Paula Gutiérrez (Noviembre-2021)
 
 dibuja.criterio.Hurwicz_Intervalos = function(tablaX,favorable=TRUE,mostrarGrafico=TRUE) {
-  X = tablaX # renombramos la tabla
-  Altmin = apply(X,MARGIN=1,min)      # vector de minimos (por filas)
-  Altmax = apply(X,MARGIN=1,max)      # vector de maximos (por filas)
-  valfa = seq(from=0,to=1,by=0.05)    # vector de valores para alfa (entre 0 y 1)
-  Hurw <- data.frame(Alt_opt = rep(0,length(valfa)),vHurwicz = rep(0,length(valfa)))
-  
-  #Alt_opt = rep(0,length(valfa))      # creamos el vector de decisiones (por el criterio de Hurwicz) para cada valor de alfa
-  
-  alfaCorte=c()                       # vector que contiene los valores de alfa donde cambian las decisiones
-  for (i in 1:length(valfa)) {
-    Opt <- criterio.Hurwicz(X, alfa = valfa[i], favorable)
-    Hurw[i,] <-  rbind(Opt$AlternativaOptima[[1]],Opt$ValorOptimo) # obtenemos las alternativas para cada alfa
-    Alt=c() # Este va a ser el Vector de las alternativas optimas para todos los alfa
-    for (i in 1:dim(Hurw)[1]) {
-      valrepetidos = duplicated(Hurw$Alt_opt) # Vector de TRUE/FALSE donde los FALSE son los elementos que se repiten
-      if (isFALSE(valrepetidos[i])){
-        Alt = c(Alt,Hurw$Alt_opt[i]) # Si es falso (si el valor se repite) lo almacenamos en el vector Alt
-      }
+    X = tablaX # renombramos la tabla
+    Altmin = apply(X,MARGIN=1,min)      # vector de minimos (por filas)
+    Altmax = apply(X,MARGIN=1,max)      # vector de maximos (por filas)
+    valfa = seq(from=0,to=1,by=0.05)    # vector de valores para alfa (entre 0 y 1)
+    Hurw <- data.frame(Alt_opt = rep(0,length(valfa)),vHurwicz = rep(0,length(valfa)))
+
+    #Alt_opt = rep(0,length(valfa))      # creamos el vector de decisiones (por el criterio de Hurwicz) para cada valor de alfa
+
+    alfaCorte=c()                       # vector que contiene los valores de alfa donde cambian las decisiones
+    for (i in 1:length(valfa)) {
+        Opt <- criterio.Hurwicz(X, alfa = valfa[i], favorable)
+        Hurw[i,] <-  rbind(Opt$AlternativaOptima[[1]],Opt$ValorOptimo) # obtenemos las alternativas para cada alfa
+        Alt=c() # Este va a ser el Vector de las alternativas optimas para todos los alfa
+        for (i in 1:dim(Hurw)[1]) {
+            valrepetidos = duplicated(Hurw$Alt_opt) # Vector de TRUE/FALSE donde los FALSE son los elementos que se repiten
+            if (isFALSE(valrepetidos[i])){
+                Alt = c(Alt,Hurw$Alt_opt[i]) # Si es falso (si el valor se repite) lo almacenamos en el vector Alt
+            }
+        }
     }
-  }
-  # Teniendo el vector de alternativas (Alt) buscamos los puntos de corte de las rectas asociadas a cada alternativa (beneficios)
-  # Por ejemplo, la recta que sale de la alternativa a1 y a2 seria:
-  #
-  #               a1Max *alfa +(1-alfa)*a1Min = a2Max *alfa +(1-alfa)*a2Min
-  #
-  # Pasando todo a un  miembro e igualando a 0 nos queda:
-  #
-  #               alfa * (a1Max- a2Max - a1Min + a2Min) + a1Min -a2Min = 0
-  #
-  # Buscamos ahora los valores de alfa para los que se cortan las rectas asociadas a cada decision
-  for (i in 1:(length(Alt)-1)){
-    imax = as.numeric(Altmax[Alt[i]])      # maximo asociado a la decision i del vector Alt
-    imax1 = as.numeric(Altmax[Alt[i+1]])   # maximo asociado a la decision i+1 del vector Alt
-    imin = as.numeric(Altmin[Alt[i]])      # minimo asociado a la decision i del vector Alt
-    imin1 = as.numeric(Altmin[Alt[i+1]])   # minimo asociado a la decision i+1 del vector Alt
-    if (favorable){
-      pCorte = function(alfa) {alfa * (imax-imax1-imin+imin1)+imin-imin1}
-      alfaC = uniroot(pCorte, interval = c(0,1))$root[[1]] # Buscamos los 0 para cada funcion
-      alfaCorte[i] = alfaC  # Almacenamos los valores de alfa para los que las rectas se cortan en alfaCorte
+    # Teniendo el vector de alternativas (Alt) buscamos los puntos de corte de las rectas asociadas a cada alternativa (beneficios)
+    # Por ejemplo, la recta que sale de la alternativa a1 y a2 seria:
+    #
+    #               a1Max *alfa +(1-alfa)*a1Min = a2Max *alfa +(1-alfa)*a2Min
+    #
+    # Pasando todo a un  miembro e igualando a 0 nos queda:
+    #
+    #               alfa * (a1Max- a2Max - a1Min + a2Min) + a1Min -a2Min = 0
+    #
+    # Buscamos ahora los valores de alfa para los que se cortan las rectas asociadas a cada decision
+    for (i in 1:(length(Alt)-1)){
+        imax = as.numeric(Altmax[Alt[i]])      # maximo asociado a la decision i del vector Alt
+        imax1 = as.numeric(Altmax[Alt[i+1]])   # maximo asociado a la decision i+1 del vector Alt
+        imin = as.numeric(Altmin[Alt[i]])      # minimo asociado a la decision i del vector Alt
+        imin1 = as.numeric(Altmin[Alt[i+1]])   # minimo asociado a la decision i+1 del vector Alt
+        if (favorable){
+            pCorte = function(alfa) {alfa * (imax-imax1-imin+imin1)+imin-imin1}
+            alfaC = uniroot(pCorte, interval = c(0,1))$root[[1]] # Buscamos los 0 para cada funcion
+            alfaCorte[i] = alfaC  # Almacenamos los valores de alfa para los que las rectas se cortan en alfaCorte
+        } else {
+            # Para el caso de costes (alternativas a1 y a2):
+            #
+            #               a1Max *(1-alfa) +alfa*a1Min = a2Max *(1-alfa) +alfa*a2Min
+            #
+            # Pasando todo a un  miembro e igualando a 0 nos queda:
+            #
+            #               alfa * (a1Min- a2Min - a1Max + a2Max) + a1Max -a2Max = 0
+            #
+            pCorte = function(alfa) {alfa * (imin-imin1-imax+imax1)+imax-imax1}
+            alfaC = uniroot(pCorte, interval = c(0,1))$root[[1]] # Buscamos los 0 para cada funcion
+            alfaCorte[i] = alfaC  # Almacenamos los valores de alfa para los que las rectas se cortan en alfaCorte
+        }
+
+    }
+
+    if (mostrarGrafico) {
+        x0=0;x1=1;
+        y0 = min(Altmin);
+        y1 = max(Altmax);
+        rg = y1-y0;
+        y0=y0-0.1*rg;y1=y1+0.1*rg;
+        plot(c(x0,x1), c(y0,y1), type = "n", xlab = "alpha", ylab = "Criterio Hurwicz");
+        nn = length(Altmin);
+        colores = rainbow(nn) #aquí es donde estaba el fallo, por lo que salían todas las lineas azules.
+        abline(v=0);
+        abline(v=1);
+        if (favorable) {
+            for (i in 1:nn) {
+                aa = Altmin[i];
+                bb = (Altmax[i] - Altmin[i]);
+                abline(a=aa,b=bb,col=colores[i]);
+            }
+        } else {
+            for (i in 1:nn) {
+                aa = Altmax[i];
+                bb = (Altmin[i] - Altmax[i]);
+                abline(a=aa,b=bb,col=colores[i]);
+            }
+        }
+
+        lines(valfa,Hurw$vHurwicz,col="green",lty=3,lwd=3)
+        abline(v = alfaCorte, col="red")
+
+        if (favorable) {
+            legend("bottomright",legend=rownames(X),fill=colores,inset=0.05) #leyendas añadidas
+            title("Criterio de Hurwicz (favorable - línea discontinua)")
+        } else {
+            legend("topright",legend=rownames(X),fill=colores,inset=0.05) #leyendas añadidas
+            title("Criterio de Hurwicz (desfavorable - línea discontinua)")
+        }
+    }
+
+    alfaCorte = round(alfaCorte, 3)
+    if (length(alfaCorte)==1){
+        Int1=paste("(",0,",",alfaCorte,")")
+        Int2=paste("(",alfaCorte,",",1,")")
+        Soluciones = cbind(c(Int1,Int2),c(Alt[1],Alt[2]))
     } else {
-      # Para el caso de costes (alternativas a1 y a2):
-      #
-      #               a1Max *(1-alfa) +alfa*a1Min = a2Max *(1-alfa) +alfa*a2Min
-      #
-      # Pasando todo a un  miembro e igualando a 0 nos queda:
-      #
-      #               alfa * (a1Min- a2Min - a1Max + a2Max) + a1Max -a2Max = 0
-      #
-      pCorte = function(alfa) {alfa * (imin-imin1-imax+imax1)+imax-imax1}
-      alfaC = uniroot(pCorte, interval = c(0,1))$root[[1]] # Buscamos los 0 para cada funcion
-      alfaCorte[i] = alfaC  # Almacenamos los valores de alfa para los que las rectas se cortan en alfaCorte
+        Int0=paste("(",0,",",alfaCorte[1],")")
+        Int1=paste("(",alfaCorte[length(alfaCorte)],",",1,")")
+        Int = ""
+        Soluciones= c(Int0, Alt[1])
+        for (i in 1:(length(alfaCorte)-1)){
+            Int[i] = paste("(",alfaCorte[i],",",alfaCorte[i+1],")")
+            Soluciones = rbind(Soluciones,c(Int[i],Alt[i+1]))
+        }
+        Soluciones = rbind(Soluciones,c(Int1,Alt[length(Alt)]))
     }
-    
-  }
-  
-  if (mostrarGrafico) {
-    x0=0;x1=1;
-    y0 = min(Altmin);
-    y1 = max(Altmax);
-    rg = y1-y0;
-    y0=y0-0.1*rg;y1=y1+0.1*rg;
-    plot(c(x0,x1), c(y0,y1), type = "n", xlab = "alpha", ylab = "Criterio Hurwicz");
-    nn = length(Altmin);
-    colores = rainbow(nn) #aquí es donde estaba el fallo, por lo que salían todas las lineas azules.
-    abline(v=0);
-    abline(v=1);
-    if (favorable) {
-      for (i in 1:nn) {
-        aa = Altmin[i];
-        bb = (Altmax[i] - Altmin[i]);
-        abline(a=aa,b=bb,col=colores[i]);
-      }
-    } else {
-      for (i in 1:nn) {
-        aa = Altmax[i];
-        bb = (Altmin[i] - Altmax[i]);
-        abline(a=aa,b=bb,col=colores[i]);
-      }
-    }
-    
-    lines(valfa,Hurw$vHurwicz,col="green",lty=3,lwd=3)
-    abline(v = alfaCorte, col="red")
-    
-    if (favorable) {
-      legend("bottomright",legend=rownames(X),fill=colores,inset=0.05) #leyendas añadidas
-      title("Criterio de Hurwicz (favorable - línea discontinua)")
-    } else {
-      legend("topright",legend=rownames(X),fill=colores,inset=0.05) #leyendas añadidas
-      title("Criterio de Hurwicz (desfavorable - línea discontinua)")
-    }
-  }
-  
-  alfaCorte = round(alfaCorte, 3)
-  if (length(alfaCorte)==1){
-    Int1=paste("(",0,",",alfaCorte,")")
-    Int2=paste("(",alfaCorte,",",1,")")
-    Soluciones = cbind(c(Int1,Int2),c(Alt[1],Alt[2]))
-  } else {
-    Int0=paste("(",0,",",alfaCorte[1],")")
-    Int1=paste("(",alfaCorte[length(alfaCorte)],",",1,")")
-    Int = ""
-    Soluciones= c(Int0, Alt[1])
-    for (i in 1:(length(alfaCorte)-1)){
-      Int[i] = paste("(",alfaCorte[i],",",alfaCorte[i+1],")")
-      Soluciones = rbind(Soluciones,c(Int[i],Alt[i+1]))
-    }
-    Soluciones = rbind(Soluciones,c(Int1,Alt[length(Alt)]))
-  }
-  colnames(Soluciones)=c("Intervalo","Alternativa")
-  
-  resultados = list();
-  resultados$AltOptimas = Alt;
-  resultados$PuntosDeCorte = alfaCorte;
-  resultados$IntervalosAlfa = Soluciones;
-  return(resultados)
-  
+    colnames(Soluciones)=c("Intervalo","Alternativa")
+
+    resultados = list();
+    resultados$AltOptimas = Alt;
+    resultados$PuntosDeCorte = alfaCorte;
+    resultados$IntervalosAlfa = Soluciones;
+    return(resultados)
+
 }
 
 
@@ -408,7 +408,7 @@ dibuja.criterio.Hurwicz_Intervalos = function(tablaX,favorable=TRUE,mostrarGrafi
 ## Savage
 
 criterio.Savage = function(tablaX,favorable=TRUE) {
-  
+
   X = tablaX;
   if (favorable) {
     Mejores = apply(X,MARGIN=2,max);
@@ -441,16 +441,16 @@ criterio.Savage = function(tablaX,favorable=TRUE) {
   resultados$ValorAlternativas = AltWS;
   resultados$ValorOptimo = Savage;
   resultados$AlternativaOptima = Alt_Savage;
-  
+
   return(resultados);
-  
-  
+
+
 }
 
 
 
 criterio.Laplace = function(tablaX,favorable=TRUE) {
-  
+
   X = tablaX;
   if (favorable) {
     AltL = apply(X,MARGIN=1,mean);
@@ -470,15 +470,15 @@ criterio.Laplace = function(tablaX,favorable=TRUE) {
   resultados$ValorAlternativas = AltL;
   resultados$ValorOptimo = Laplace;
   resultados$AlternativaOptima = Alt_Laplace;
-  
+
   return(resultados);
-  
+
 }
 
 
 
 criterio.PuntoIdeal = function(tablaX,favorable=TRUE) {
-  
+
   X = tablaX;
   if (favorable) {
     MejoresPT = apply(X,MARGIN=2,max); # favorable
@@ -511,47 +511,47 @@ criterio.PuntoIdeal = function(tablaX,favorable=TRUE) {
   resultados$ValorAlternativas = AltPT;
   resultados$ValorOptimo = PuntoIdeal;
   resultados$AlternativaOptima = Alt_PuntoIdeal;
-  
+
   return(resultados);
-  
+
 }
 
 criterio.Todos = function(tablaX,alfa=0.3,favorable=TRUE) {
-  
+
   cri01 = criterio.Wald(tablaX,favorable);
   cri02 = criterio.Optimista(tablaX,favorable);
   cri03 = criterio.Hurwicz(tablaX,alfa,favorable);
   cri04 = criterio.Savage(tablaX,favorable);
   cri05 = criterio.Laplace(tablaX,favorable);
   cri06 = criterio.PuntoIdeal(tablaX,favorable);
-  
+
   numestados = ncol(tablaX)
   numalterna = nrow(tablaX)
-  
+
   resultado = cbind(tablaX,cri01$ValorAlternativas,cri02$ValorAlternativas,
                     cri03$ValorAlternativas,cri04$ValorAlternativas,
                     cri05$ValorAlternativas,cri06$ValorAlternativas);
-  
+
   decopt = c(rep(NA,numestados),cri01$AlternativaOptima[1],
              cri02$AlternativaOptima[1],cri03$AlternativaOptima[1],
              cri04$AlternativaOptima[1],cri05$AlternativaOptima[1],
              cri06$AlternativaOptima[1]);
-  
+
   resultado = rbind(resultado,decopt);
-  
+
   colnames(resultado)[numestados+1] = cri01$criterio;
   colnames(resultado)[numestados+2] = cri02$criterio;
   colnames(resultado)[numestados+3] = cri03$criterio;
   colnames(resultado)[numestados+4] = cri04$criterio;
   colnames(resultado)[numestados+5] = cri05$criterio;
   colnames(resultado)[numestados+6] = cri06$criterio;
-  
+
   if (favorable) {
     rownames(resultado)[numalterna+1] = 'iAlt.Opt (fav.)';
   } else {
     rownames(resultado)[numalterna+1] = 'iAlt.Opt (Desfav.)';
   }
-  
+
   ## nuevo
   resultado = as.data.frame(resultado)
   resultado = format(resultado,digits=4)
@@ -564,46 +564,9 @@ criterio.Todos = function(tablaX,alfa=0.3,favorable=TRUE) {
              paste0(names(cri06$AlternativaOptima),collapse = ","));
   resultado[nrow(resultado),] = decopt
   ## fin nuevo
-  
+
   return(resultado)
-  
-}
 
-# Definir una función que cuente las ocurrencias de cada alternativa en todas las columnas
-contar_alternativas <- function(criterios.Todos) {
-  # Convierte la matriz o data frame en un vector para contar las ocurrencias de cada alternativa
-  alternativas <- as.vector(as.matrix(criterios.Todos))
-  
-  # Usar table() para contar las ocurrencias de cada alternativa
-  conteo <- table(alternativas)
-  
-  # Mostrar el conteo de cada alternativa
-  print(conteo)
-  
-  # Crear una columna adicional con el número de repeticiones de cada alternativa
-  # Asumimos que la primera columna es la lista de alternativas
-  criterios.Todos$Recuento <- rowSums(criterios.Todos == rownames(conteo))
-  
-  return(criterios.Todos)
 }
 
 
-### Ejemplo de prueba ejercicio 5 relación 1
-
-m11= 60*2+5 # Taxi
-m12= 60*2 #Andando
-
-## Precios en "el Baratito"
-m21= 30*2+6+40*2+10
-m22= 30*2
-
-## Precios en "Jusnto a casa"
-m31= 40*2
-m32=40*2+25*2
-tb05= crea.tablaX(c(m11,m12,
-                    m21,m22,
-                    m31,m32),numalternativas = 3,numestados = 2)
-knitr::kable(tb05)
-
-sol5=criterio.Todos(tb05,favorable = F)
-knitr::kable(sol5)
