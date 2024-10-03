@@ -30,3 +30,12 @@ b) Desde el punto de vista DESFAVORABLE
 
 
 # PROBLEMA 2
+
+El equipo ARUS de Formula Student de la Universidad de Sevilla está evaluando a qué competición asistir este año. Actualmente, tienen tres opciones disponibles, y cada una tiene características distintas en términos de coste, nivel de competencia y beneficios potenciales:
+Para acceder a cada una se debe pagar una cuota de inscripción 
+
+**Competición en Barcelona:** La cuota de inscripción es de 2,000 euros y el coste de transporte es bajo ya que no saldrían de España, aproximadamente de unos 1,000 euros. El equipo espera obtener buenos resultados aquí ya que se encuentran en casa, en caso de ganar, podrían conseguir un premio de 5,000 euros. Sin embargo, el nivel de competencia es medio, y hay un 60% de probabilidad de quedar entre los primeros.
+
+**Competición en Hockenheim (Alemania):** Es una de la competición más prestigiosa, esto se ve reflejado en su cuota de inscripción que es de 3,500 euros. Además el coste de transporte debido a las escasas conexiones es elevado llegando a 4,000 euros. Si logran quedar entre los primeros puestos, podrían conseguir un premio de 10,000 euros.Una increible recompensa que sumada al orgullo de ganarla es un gran aliciente. El nivel de competencia es alto, y sólo tienen un 30% de probabilidad de ganar.
+
+**Competición en Assen (Paises Bajos):** El coste de inscripción es intermedio, 2,800 euros, y el coste de transporte es de 3,500 euros. Es una competición con buen reconocimiento pero que no lleva tantos años celebrandose. El premio es una buena cifra tratándose de 7,000 euros, y el nivel de competencia también es alto, con un 40% de probabilidad de ganar.
