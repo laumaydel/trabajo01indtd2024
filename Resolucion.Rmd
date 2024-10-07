@@ -36,7 +36,6 @@ knitr::kable(tabla)
 ```
 
 ##  Desde el punto de vista FAVORABLE o BENEFICIOS
-
 ```{r}
 tb01= crea.tablaX(c(4,5,-3,7,8,
                     3,-1,3,7,9,
@@ -116,6 +115,8 @@ sol2Opt=criterio.Optimista(tb01,favorable = FALSE)
 cat("La solución por el criterio Optimista es la:", sol2Opt$AlternativaOptima)
 ```
 
+
+\newpage
 ### 1.3. Criterio de Hurwitcz
 ```{r}
 sol2Hur1=criterio.Hurwicz(tb01,favorable = FALSE,alfa = 0.4)
@@ -158,4 +159,83 @@ sol2Todos=criterio.Todos(tb01,favorable = FALSE, alfa = 0.5)
 knitr::kable(sol2Todos[,6:ncol(sol2Todos)])
 ```
 
+\newpage
+
 # PROBLEMA 2
+
+El equipo ARUS de Formula Student de la Universidad de Sevilla está evaluando a qué competición asistir este año. Actualmente, tienen tres opciones disponibles, y cada una tiene características distintas en términos de coste, nivel de competencia y beneficios potenciales:
+Para acceder a cada una se debe pagar una cuota de inscripción 
+
+**Competición en Barcelona:** La cuota de inscripción es de 2,000 euros y el coste de transporte es bajo ya que no saldrían de España, aproximadamente de unos 1,000 euros. El equipo espera obtener buenos resultados aquí ya que se encuentran en casa, en caso de ganar, podrían conseguir un premio de 5,000 euros. Sin embargo, el nivel de competencia es medio bajo teniendo muchas posibilidades de quedar entre los primeros.
+
+**Competición en Hockenheim (Alemania):** Es una de la competición más prestigiosa, esto se ve reflejado en su cuota de inscripción que es de 3,500 euros. Además el coste de transporte debido a las escasas conexiones es elevado llegando a 4,000 euros. Si logran quedar entre los primeros puestos, podrían conseguir un premio de 10,000 euros.Una increible recompensa que sumada al orgullo de ganarla es un gran aliciente. 
+
+**Competición en Assen (Paises Bajos):** El coste de inscripción es intermedio, 2,800 euros, y el coste de transporte es de 3,500 euros. Es una competición con buen reconocimiento pero que no lleva tantos años celebrandose. El premio es una buena cifra tratándose de 7,000 euros, y el nivel de competencia también es alto.
+
+¿A qué competición le recomendarías a la directiva del equipo asistir? 
+
+\begin{itemize}
+  \item \textbf{Decisor:} Directiva del equipo
+  \item \textbf{Modelo:} Costos (desfavorable)
+  \item \textbf{Alternativas:}
+  \begin{itemize}
+    \item \( d_1 = \) España (Barcelona)
+    \item \( d_2 = \) Alemania (Hokengheim)
+    \item \( d_3 = \) Países Bajos (Assen)
+  \end{itemize}
+  \item \textbf{Estados de la naturaleza:}
+  \begin{itemize}
+    \item \( e_1 = \) Ganar la competición
+    \item \( e_2 = \) Perder la competición
+  \end{itemize} 
+  
+  \item\textbf{Definición de los elementos de la matriz:}
+\begin{itemize}
+  \item \textbf{Costes y premios:}
+  \begin{enumerate}
+    \item \textbf{Competición en España:} \\
+    \textbf{Coste total:} \( 2,000 \, € + 1,000 \, € = 3,000 \, € \) \\
+    \textbf{Premio si gana:} \( 5,000 \, € \) \\
+    \textbf{Beneficio neto si gana:} \( 5,000 \, € - 3,000 \, € = 2,000 \, € \) \\
+    \textbf{Beneficio neto si no gana:} \( -3,000 \, € \) (pérdida de costes)
+    
+    \item \textbf{Competición en Alemania:} \\
+    \textbf{Coste total:} \( 3,500 \, € + 4,000 \, € = 7,500 \, € \) \\
+    \textbf{Premio si gana:} \( 10,000 \, € \) \\
+    \textbf{Beneficio neto si gana:} \( 10,000 \, € - 7,500 \, € = 2,500 \, € \) \\
+    \textbf{Beneficio neto si no gana:} \( -7,500 \, € \) (pérdida de costes)
+    
+    \item \textbf{Competición en Reino Unido:} \\
+    \textbf{Coste total:} \( 2,800 \, € + 3,500 \, € = 6,300 \, € \) \\
+    \textbf{Premio si gana:} \( 7,000 \, € \) \\
+    \textbf{Beneficio neto si gana:} \( 7,000 \, € - 6,300 \, € = 700 \, € \) \\
+    \textbf{Beneficio neto si no gana:} \( -6,300 \, € \) (pérdida de costes)
+  \end{enumerate}
+\end{itemize}
+
+\item\textbf{Matriz de decisión:}
+
+\begin{center}
+\begin{tabular}{|c|c|c|}
+  \hline
+  \textbf{Competición} & \textbf{Ganar} & \textbf{No ganar} \\
+  \hline
+  España & \( 2,000 \, € \) & \( -3,000 \, € \) \\
+  Alemania & \( 2,500 \, € \) & \( -7,500 \, € \) \\
+  Reino Unido & \( 700 \, € \) & \( -6,300 \, € \) \\
+  \hline
+\end{tabular}
+\end{center}
+\end{itemize}
+
+```{r}
+tb02= crea.tablaX(c(2000,-3000,
+                    2500,-7500,
+                    700,-6300),numalternativas = 3,numestados = 2)
+```
+```{r}
+solp2=criterio.Todos(tb02,alfa = 0.3,favorable = FALSE)
+knitr::kable(solp2[,3:ncol(solp2)])
+
+```
+
