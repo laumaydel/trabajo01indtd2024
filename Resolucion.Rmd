@@ -2,12 +2,23 @@
 title: "Resolución de problemas"
 author: "Laura Mayorgas del Castillo"
 date: "2024-10-03"
-output: pdf_document
+output:
+  pdf_document:
+    toc: true
+    number_sections: true
+    toc_depth: 5
+lang: es
+number-sections: true
+toc: true
 ---
+\newpage
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 source("teoriadecision_funciones_incertidumbre.R")
+```
+```{r, include=FALSE}
+options(tinytex.verbose = TRUE)
 ```
 
 # PROBLEMA 1
@@ -16,7 +27,7 @@ Aplicar los criterios de decisión bajo incertidumbre a los problemas cuya matri
 ```{r,echo=FALSE}
 tabla=cbind(tabla <- data.frame(
   e1 = c(4,5,-3,7,8),
-  e2 = c(3,-1,3,7,9),
+  e2 = c(5,-1,3,7,2),
   e3 = c(-4,9,8,2,1),
   e4 = c(4,6,7,-9,3)
 ))
@@ -24,7 +35,7 @@ row.names(tabla)=c("d1","d2","d3","d4","d5")
 knitr::kable(tabla)
 ```
 
-a) Desde el punto de vista FAVORABLE
+##  Desde el punto de vista FAVORABLE o BENEFICIOS
 
 ```{r}
 tb01= crea.tablaX(c(4,5,-3,7,8,
@@ -33,4 +44,118 @@ tb01= crea.tablaX(c(4,5,-3,7,8,
                     4,6,7,-9,3),numalternativas = 4,numestados = 5)
 ```
 
-Vamos a resolverlo con cada uno de los
+### Criterio de Wald
+
+```{r}
+sol1Wlad=criterio.Wald(tb01,favorable = TRUE)
+cat("La solución por el criterio de Wald es la:", sol1Wlad$AlternativaOptima)
+```
+
+### Criterio optimista
+
+```{r}
+sol1Opt=criterio.Optimista(tb01,favorable = TRUE)
+cat("La solución por el criterio Optimista es la:", sol1Opt$AlternativaOptima)
+```
+
+### Criterio de Hurwitcz
+```{r}
+sol1Hur=criterio.Hurwicz(tb01,favorable = TRUE)
+cat("La solución por el criterio de Hurwitcz es la:", sol1Hur$AlternativaOptima)
+```
+
+```{r,fig.dim=0.4}
+dibuja.criterio.Hurwicz(tb01,favorable = TRUE)
+```
+
+
+### Criterio de Savage
+```{r}
+sol1Sav=criterio.Savage(tb01,favorable = TRUE)
+cat("La solución por el criterio de Savage es la:", sol1Sav$AlternativaOptima)
+```
+
+
+### Criterio de Lapalce
+
+```{r}
+sol1Lap=criterio.Laplace(tb01,favorable = TRUE)
+cat("La solución por el criterio Laplace es la:", sol1Lap$AlternativaOptima)
+```
+
+
+### Criterio del punto ideal
+
+```{r}
+sol1PuntId=criterio.PuntoIdeal(tb01,favorable = TRUE)
+cat("La solución por el criterio del Punto Ideal es la:", sol1PuntId$AlternativaOptima)
+
+```
+
+### Criterios todos
+
+```{r}
+sol1Todos=criterio.Todos(tb01,favorable = T, alfa = 0.5)
+knitr::kable(sol1Todos[,6:ncol(sol1Todos)])
+```
+
+
+##  Desde el punto de vista DESFAVORABLE o de COSTES
+
+### 1.1. Criterio de Wald
+
+```{r}
+sol2Wlad=criterio.Wald(tb01,favorable = FALSE)
+cat("La solución por el criterio de Wald es la:", sol2Wlad$AlternativaOptima)
+```
+
+### 1.2. Criterio optimista
+
+```{r}
+sol2Opt=criterio.Optimista(tb01,favorable = FALSE)
+cat("La solución por el criterio Optimista es la:", sol2Opt$AlternativaOptima)
+```
+
+### 1.3. Criterio de Hurwitcz
+```{r}
+sol2Hur1=criterio.Hurwicz(tb01,favorable = FALSE,alfa = 0.4)
+cat("La solución por el criterio de Hurwitcz es la:", sol2Hur1$AlternativaOptima)
+```
+
+```{r}
+sol2Hur2= criterio.Hurwicz.General(tb01,favorable = FALSE, alfa = 0.4)
+dibuja.criterio.Hurwicz(tb01,favorable = FALSE)
+```
+
+
+### 1.4. Criterio de Savage
+```{r}
+sol2Sav=criterio.Savage(tb01,favorable = FALSE)
+cat("La solución por el criterio de Savage es la:", sol2Sav$AlternativaOptima)
+```
+
+
+### 1.5. Criterio de Lapalce
+
+```{r}
+sol2Lap=criterio.Laplace(tb01,favorable = FALSE)
+cat("La solución por el criterio Laplace es la:", sol2Lap$AlternativaOptima)
+```
+
+
+### 1.6 Criterio del punto ideal
+
+```{r}
+sol2PuntId=criterio.PuntoIdeal(tb01,favorable = FALSE)
+cat("La solución por el criterio del Punto Ideal es la:", sol2PuntId$AlternativaOptima)
+
+```
+
+### 1.7. Criterios todos
+
+```{r}
+sol2Todos=criterio.Todos(tb01,favorable = FALSE, alfa = 0.5)
+knitr::kable(sol2Todos[,6:ncol(sol2Todos)])
+```
+
+# PROBLEMA 2
