@@ -135,7 +135,7 @@ sol2Sav=criterio.Savage(tb01,favorable = FALSE)
 cat("La solución por el criterio de Savage es la:", sol2Sav$AlternativaOptima)
 ```
 
-
+\newpage
 ### 1.5. Criterio de Lapalce
 
 ```{r}
