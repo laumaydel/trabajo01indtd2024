@@ -174,68 +174,41 @@ Para acceder a cada una se debe pagar una cuota de inscripción
 
 ¿A qué competición le recomendarías a la directiva del equipo asistir? 
 
-\begin{itemize}
-  \item \textbf{Decisor:} Directiva del equipo
-  \item \textbf{Modelo:} Costos (desfavorable)
-  \item \textbf{Alternativas:}
-  \begin{itemize}
-    \item \( d_1 = \) España (Barcelona)
-    \item \( d_2 = \) Alemania (Hokengheim)
-    \item \( d_3 = \) Países Bajos (Assen)
-  \end{itemize}
-  \item \textbf{Estados de la naturaleza:}
-  \begin{itemize}
-    \item \( e_1 = \) Ganar la competición
-    \item \( e_2 = \) Perder la competición
-  \end{itemize} 
+Costes y premios:
+  o	Competición en España:
   
-  \item\textbf{Definición de los elementos de la matriz:}
-\begin{itemize}
-  \item \textbf{Costes y premios:}
-  \begin{enumerate}
-    \item \textbf{Competición en España:} \\
-    \textbf{Coste total:} \( 2,000 \, € + 1,000 \, € = 3,000 \, € \) \\
-    \textbf{Premio si gana:} \( 5,000 \, € \) \\
-    \textbf{Beneficio neto si gana:} \( 5,000 \, € - 3,000 \, € = 2,000 \, € \) \\
-    \textbf{Beneficio neto si no gana:} \( -3,000 \, € \) (pérdida de costes)
+    -	Coste total: 2,000 € (inscripción) + 1,000 € (transporte) = 3,000 €
+    -	Premio si gana: 5,000 €
+    -	Beneficio neto si gana: 5,000 - 3,000 = 2,000 €
+    -	Beneficio neto si no gana: -3,000 € (pérdida de costes)
     
-    \item \textbf{Competición en Alemania:} \\
-    \textbf{Coste total:} \( 3,500 \, € + 4,000 \, € = 7,500 \, € \) \\
-    \textbf{Premio si gana:} \( 10,000 \, € \) \\
-    \textbf{Beneficio neto si gana:} \( 10,000 \, € - 7,500 \, € = 2,500 \, € \) \\
-    \textbf{Beneficio neto si no gana:} \( -7,500 \, € \) (pérdida de costes)
+  o Competición en Alemania:
+
+    - Coste total: 3,500 € (inscripción) + 4,000 € (transporte) = 7,500 €
+    - Premio si gana: 10,000 €
+    - Beneficio neto si gana: 10,000 - 7,500 = 2,500 €
+    - Beneficio neto si no gana: -7,500 € (pérdida de costes)
     
-    \item \textbf{Competición en Reino Unido:} \\
-    \textbf{Coste total:} \( 2,800 \, € + 3,500 \, € = 6,300 \, € \) \\
-    \textbf{Premio si gana:} \( 7,000 \, € \) \\
-    \textbf{Beneficio neto si gana:} \( 7,000 \, € - 6,300 \, € = 700 \, € \) \\
-    \textbf{Beneficio neto si no gana:} \( -6,300 \, € \) (pérdida de costes)
-  \end{enumerate}
-\end{itemize}
+    
+  o Competición en Países Bajos:
+  
+    - Coste total: 2,800 € (inscripción) + 3,500 € (transporte) = 6,300 €
+    - Premio si gana: 7,000 €
+    - Beneficio neto si gana: 7,000 - 6,300 = 700 €
+    - Beneficio neto si no gana: -6,300 € (pérdida de costes)
 
-\item\textbf{Matriz de decisión:}
 
-\begin{center}
-\begin{tabular}{|c|c|c|}
-  \hline
-  \textbf{Competición} & \textbf{Ganar} & \textbf{No ganar} \\
-  \hline
-  España & \( 2,000 \, € \) & \( -3,000 \, € \) \\
-  Alemania & \( 2,500 \, € \) & \( -7,500 \, € \) \\
-  Reino Unido & \( 700 \, € \) & \( -6,300 \, € \) \\
-  \hline
-\end{tabular}
-\end{center}
-\end{itemize}
-
+\newpage
 ```{r}
 tb02= crea.tablaX(c(2000,-3000,
                     2500,-7500,
                     700,-6300),numalternativas = 3,numestados = 2)
+rownames(tb02)=c("España","Alemania","Paises Bajos")
+colnames(tb02)=c("Ganar","Perder")
+knitr::kable(tb02)
 ```
 ```{r}
 solp2=criterio.Todos(tb02,alfa = 0.3,favorable = FALSE)
 knitr::kable(solp2[,3:ncol(solp2)])
 
 ```
-
