@@ -7,7 +7,7 @@ En este trabajo se pretende asentar los conocimientos de clase mediante la resol
 En el primero se resuelve una tabla de decisión desde los dos posibles puntos de vista: 
 	
  ##### **- Favorable:** 
- Posicionandonos en este pensamiento consideramos que los datos que nos dan son los beneficios posibles a obtener a la hora de escoger esa alternativa 
+ Posicionándonos en este pensamiento consideramos que los datos que nos dan son los beneficios posibles a obtener a la hora de escoger esa alternativa 
  ##### 	**- Desfavorable:**
   Este sería el pensamiento análogo al anterior. Los datos de la matriz de decisión se consideran costos. 
 
@@ -19,10 +19,12 @@ En el primero se resuelve una tabla de decisión desde los dos posibles puntos d
 
 ***nota: Estos dos últimos archivos vienen dados tanto en estensión .Rmd como en .pdf para su más fácil lectura.***
 - **teoriadecision_funciones_incertidumbre.R**: Archivo que contiene todas las funciones para definir los distintos criterios. Es necesaria para poder ejecutar el código. Se puede acceder a él medianete el uso de un *source()*.
-- **trabajo01indtd2024.Rproj**: Extensión del proyecto de R para poder trabajar de forma más sencilla.Contiene varias opciones de proyecto. También se puede utilizar como acceso directo para abrir el proyecto directamente desde el sistema de archivos .
+- **trabajo01grupotd2024.Rproj**: Extensión del proyecto de R para poder trabajar de forma más sencilla.Contiene varias opciones de proyecto. También se puede utilizar como acceso directo para abrir el proyecto directamente desde el sistema de archivos .
 
 
 ## Descripción de los problemas:
 - **Problema 1:** Ejercicio básico de toma de decisión bajo condiciones de incertidumbre teniendo como dato la matriz de decisión. Se debe resolver desde los dos puntos de vista especificados.
  
 - **Problema 2:** Enunciado de un problema de toma de decisión bajo condiciones de incertidumbre. La complejitud es mayor pues se debe calcular la matriz de decisión mediante los datos dados. Solo se pide resolverlo desde el punto de vista más óptimo para el ejemplo del que se trata y haciendo uso de todos los criterios conjuntamente. 
+
+
