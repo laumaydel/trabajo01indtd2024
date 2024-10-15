@@ -27,4 +27,5 @@ En el primero se resuelve una tabla de decisión desde los dos posibles puntos d
  
 - **Problema 2:** Enunciado de un problema de toma de decisión bajo condiciones de incertidumbre. La complejitud es mayor pues se debe calcular la matriz de decisión mediante los datos dados. Solo se pide resolverlo desde el punto de vista más óptimo para el ejemplo del que se trata y haciendo uso de todos los criterios conjuntamente. 
 
+*nota: En el documento de la resolución tan solo he mostrado la solución óptima para evitar que se desplieguen todos los elementos de la lista que genera la salida al ejecutar las funciones. Para obtener toda la información descargar el archivo Resolución.Rmd y ejecutarlo desde la consola*
 
